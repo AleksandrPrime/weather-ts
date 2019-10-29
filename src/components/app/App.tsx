@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import WeatherServices from '../../services/weather_services';
+import WeatherListContainer from "../weather_list/weather_list";
 
 const Header = styled.header`
     border-bottom: 1px solid #e5e5e5;
@@ -16,7 +17,7 @@ const Logo = styled.div`
     padding-left: 1rem;
     `;
 
- const WeatherHeader = () => {
+const WeatherHeader = () => {
     return (
         <Header className="row">
             <Link to="/">
@@ -25,31 +26,15 @@ const Logo = styled.div`
         </Header>
     );
 };
-export default class App extends Component{
-    weatherServices = new WeatherServices ();
-
-    state = {
-        weather: [],
-        loading: true,
-        error: null,
-    };
-
-    fetchWeather = (city: string) =>  {
-        this.weatherServices.weatherBalloon(city)
-            .then((data) => this.setState({
-                weather: data,
-                loading: true
-            }))
-            .catch((err) => this.setState({
-                loading: false,
-                error: err
-            }));
-    };
+export default class App extends Component {
 
     render() {
-      return (
-          <WeatherHeader />
-      )
+        return (
+            <div>
+                <WeatherHeader/>
+                <WeatherListContainer/>
+            </div>
+        )
     }
 }
 

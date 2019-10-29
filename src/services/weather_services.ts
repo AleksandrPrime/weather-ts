@@ -4,7 +4,7 @@ export default class WeatherServices {
     _prourl = 'https://cors-anywhere.herokuapp.com/';
     _units = '&units=metric';
 
-    weatherBalloon = ( cityName: string = 'Sevastopol' ) => {
+    weatherBalloon = ( cityName: string) => {
         return fetch(`${this._prourl}${this._apiBase}${cityName}${this._apiId}${this._units}`)
             .then((resp) => resp.json())
             .catch(function() {

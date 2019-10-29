@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-
-const ErrorIndicator = () => {
-    return <div>Error!</div>
-};
+import ErrorIndicator from '../error_indicator/error_indicator'
 
 export default class ErrorBoundry extends Component{
 
