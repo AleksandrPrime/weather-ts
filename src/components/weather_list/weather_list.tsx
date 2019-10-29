@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorIndicator from '../error_indicator/error_indicator';
+import InputForm from '../input_form/input_form'
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import WeatherServices from '../../services/weather_services';
 
-const WeatherList = ({weather, settings} : any) => {
+const WeatherList = ({weather, settings, fetchWeather} : any) => {
 
     return (
         <div>
+            <InputForm fetchWeather={fetchWeather}/>
             <h2 className="center-block text-center">{weather.city.name}</h2>
             <Slider {...settings} className="weather-list row">
                 {
@@ -72,7 +74,7 @@ class WeatherListContainer extends Component {
 
     render() {
 
-        var settings = {
+        const settings = {
             dots: true,
             infinite: true,
             speed: 500,
@@ -90,7 +92,7 @@ class WeatherListContainer extends Component {
             return <ErrorIndicator />;
         }
         console.log(weather);
-        return <WeatherList weather={weather} settings={settings}/>
+        return <WeatherList weather={weather} settings={settings} fetchWeather={this.fetchWeather}/>
     }
 }
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import WeatherServices from '../../services/weather_services';
 import WeatherListContainer from "../weather_list/weather_list";
 
 const Header = styled.header`
@@ -26,14 +25,20 @@ const WeatherHeader = () => {
         </Header>
     );
 };
+
+const Wrapper = styled.div`
+    max-width: 800px;
+    margin: auto;
+`;
+
 export default class App extends Component {
 
     render() {
         return (
-            <div>
+            <Wrapper>
                 <WeatherHeader/>
                 <WeatherListContainer/>
-            </div>
+            </Wrapper>
         )
     }
 }
