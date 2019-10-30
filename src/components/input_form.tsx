@@ -11,19 +11,19 @@ const InputStyle = styled.input`
 `;
 
 
-const InputForm = (props) => {
+const InputForm = (props: any) => {
 
     let [label, setLabel] = useState('');
 
 
-    const onLabelChange=(e)=>{
+    const onLabelChange=(e: any)=>{
         setLabel(capitalize(e.target.value))
     };
 
-    const capitalize = (s) => {
+    const capitalize = (s: string) => {
         return s && s[0].toUpperCase() + s.slice(1);
     };
-    const onSubmit = (e) => {
+    const onSubmit = (e: any) => {
         if(label){
             e.preventDefault();
             props.fetchWeather(label);

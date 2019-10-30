@@ -16,7 +16,7 @@ const WeatherList = ({weather, settings, fetchWeather} : any) => {
             <h2 className="center-block text-center">{weather.city.name}</h2>
             <Slider {...settings} className="weather-list row">
                 {
-                    weather.list.map((item, idx) => {
+                    weather.list.map((item: any, idx: number) => {
                         if (idx % 8 === 0)
                         {return (
                             <div className="center-block" key={item.dt}>
@@ -33,7 +33,7 @@ const WeatherList = ({weather, settings, fetchWeather} : any) => {
     );
 };
 
-const WeatherListItem = ({ item }) => {
+const WeatherListItem = ({ item }: any) => {
     const { main: {temp, temp_max, temp_min}, dt_txt} = item;
     return (
         <div className="book-list-item list-group">
