@@ -1,14 +1,9 @@
-export default class WeatherServices {
-    _apiBase = 'api.openweathermap.org/data/2.5/forecast?q=';
-    _apiId = '&appid=68c24b19a0f082eb5868d192ef1bc194';
-    _prourl = 'https://cors-anywhere.herokuapp.com/';
-    _units = '&units=metric';
+const weatherBalloon = (cityName: string) => {
+    return fetch(`https://cors-anywhere.herokuapp.com/api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=68c24b19a0f082eb5868d192ef1bc194&units=metric`)
+        .then((resp) => resp.json())
+        .catch(function () {
+            // catch any errors
+        });
+};
 
-    weatherBalloon = ( cityName: string) => {
-        return fetch(`${this._prourl}${this._apiBase}${cityName}${this._apiId}${this._units}`)
-            .then((resp) => resp.json())
-            .catch(function() {
-                // catch any errors
-            });
-    }
-}
+export default weatherBalloon;

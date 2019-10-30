@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import WeatherListContainer from "../weather_list/weather_list";
+import WeatherListContainer from "./weather_list";
 
 const Header = styled.header`
     border-bottom: 1px solid #e5e5e5;

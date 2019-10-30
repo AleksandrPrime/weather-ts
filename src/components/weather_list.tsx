@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Spinner from '../spinner/spinner';
-import ErrorIndicator from '../error_indicator/error_indicator';
-import InputForm from '../input_form/input_form'
+import Spinner from './spinner';
+import ErrorIndicator from './error_indicator';
+import InputForm from './input_form';
+import weatherBalloon from '../services/weather_services';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import WeatherServices from '../../services/weather_services';
 
 const WeatherList = ({weather, settings, fetchWeather} : any) => {
 
@@ -48,19 +48,21 @@ const WeatherListItem = ({ item }) => {
 };
 
 class WeatherListContainer extends Component {
-    weatherServices = new WeatherServices ();
 
     state = {
         weather: [],
-        loading: true,
+        loading: false,
         error: null,
     };
 
     fetchWeather = (city: string = 'Sevastopol' ) =>  {
-        this.weatherServices.weatherBalloon(city)
+        this.setState({
+            loading: false
+        });
+        weatherBalloon(city)
             .then((data) => this.setState({
                 weather: data,
-                loading: false
+                loading: true
             }))
             .catch((err) => this.setState({
                 loading: false,
@@ -84,7 +86,7 @@ class WeatherListContainer extends Component {
 
         const { weather, loading, error } = this.state;
 
-        if(loading) {
+        if(!loading) {
             return <Spinner/>;
         }
 
