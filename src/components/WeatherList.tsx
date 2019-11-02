@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Spinner from './spinner';
-import ErrorIndicator from './error_indicator';
-import InputForm from './input_form';
+import Spinner from './Spinner';
+import ErrorIndicator from './ErrorIndicator';
+import InputForm from './InputForm';
 import weatherBalloon from '../services/weather_services';
 
 import Slider from "react-slick";
