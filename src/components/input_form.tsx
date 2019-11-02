@@ -10,23 +10,22 @@ const InputStyle = styled.input`
     width: 76.4%;
 `;
 
-
-const InputForm = (props: any) => {
+const InputForm = ({fetchWeather}: InputFormProps) => {
 
     let [label, setLabel] = useState('');
 
 
-    const onLabelChange=(e: any)=>{
-        setLabel(capitalize(e.target.value))
+    const onLabelChange=(e: React.FormEvent<HTMLInputElement>)=>{
+        setLabel(capitalize(e.currentTarget.value))
     };
 
     const capitalize = (s: string) => {
         return s && s[0].toUpperCase() + s.slice(1);
     };
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         if(label){
             e.preventDefault();
-            props.fetchWeather(label);
+            fetchWeather(label);
             setLabel('');
         } else e.preventDefault();
     };
@@ -43,5 +42,7 @@ const InputForm = (props: any) => {
             </FormStyle>
         )
 };
+
+type InputFormProps = {fetchWeather: Function}
 
 export default InputForm;

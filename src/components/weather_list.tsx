@@ -55,7 +55,7 @@ class WeatherListContainer extends Component {
         error: null,
     };
 
-    fetchWeather = (city: string = 'Sevastopol' ) =>  {
+    fetchWeather = (city: string = 'Sevastopol' ): void =>  {
         this.setState({
             loading: false
         });
