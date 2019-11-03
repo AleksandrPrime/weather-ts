@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const weatherBalloon = (cityName: string): Promise<WeatherType> => {
+const weatherBalloon = (cityName?: string): Promise<WeatherType> => {
     return axios
         .get(`https://cors-anywhere.herokuapp.com/api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=68c24b19a0f082eb5868d192ef1bc194&units=metric`)
         .then((resp) => resp.data)
@@ -15,7 +15,6 @@ type WeatherType = {
     temp_max: number,
     temp_min: number,
     dt_txt: string
-
 }
 
 export default weatherBalloon;

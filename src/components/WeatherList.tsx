@@ -1,22 +1,56 @@
 import React, { Component } from 'react';
-import Spinner from './Spinner';
+import Spinner from './spinner';
 import ErrorIndicator from './ErrorIndicator';
-import InputForm from './InputForm';
-import weatherBalloon from '../services/weather_services';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const WeatherList = ({weather, settings, fetchWeather} : any) => {
+type WeatherListProps = {
+    weather: {
+        city: {
+            name: string
+        },
+        list: ItemType[]
+    }
+    settings: {
+        dots: boolean,
+        infinite: boolean,
+        speed: number,
+        slidesToShow: number,
+        slidesToScroll: number
+    }
+}
 
+
+export interface ItemType {
+    clouds: {all: number}
+    dt: number
+    dt_txt: string
+    main: {
+        grnd_level: number,
+        humidity: number,
+        pressure: number,
+        sea_level: number,
+        temp: number,
+        temp_kf: number,
+        temp_max: number,
+        temp_min: number
+    }
+    sys: {pod: string}
+    weather: Array<[]>
+    wind: {
+        speed: number, deg: number
+    }
+}
+
+const WeatherList = ({weather, settings}: WeatherListProps) => {
     return (
         <div>
-            <InputForm fetchWeather={fetchWeather}/>
             <h2 className="center-block text-center">{weather.city.name}</h2>
             <Slider {...settings} className="weather-list row">
                 {
-                    weather.list.map((item: any, idx: number) => {
+                    weather.list.map((item: ItemType, idx: number) => {
                         if (idx % 8 === 0)
                         {return (
                             <div className="center-block" key={item.dt}>
@@ -34,7 +68,9 @@ const WeatherList = ({weather, settings, fetchWeather} : any) => {
 };
 
 const WeatherListItem = ({ item }: any) => {
-    const { main: {temp, temp_max, temp_min}, dt_txt} = item;
+
+    const { main: { temp, temp_max, temp_min}, dt_txt} = item;
+
     return (
         <div className="book-list-item list-group">
             <ul className="list-group">
@@ -47,31 +83,24 @@ const WeatherListItem = ({ item }: any) => {
     )
 };
 
-class WeatherListContainer extends Component {
+type WeatherListContainerProps = {
+    state: {weather: {
+            city: {
+                name: string
+            },
+            list: ItemType[]
+        },
+        loading: boolean,
+        error: object | null},
+    fetchWeather: Function
+}
 
-    state = {
-        weather: [],
-        loading: false,
-        error: null,
-    };
+class WeatherListContainer extends Component<WeatherListContainerProps> {
 
-    fetchWeather = (city: string = 'Sevastopol' ): void =>  {
-        this.setState({
-            loading: false
-        });
-        weatherBalloon(city)
-            .then((data) => this.setState({
-                weather: data,
-                loading: true
-            }))
-            .catch((err) => this.setState({
-                loading: false,
-                error: err
-            }));
-    };
+
 
     componentDidMount() {
-        this.fetchWeather();
+        this.props.fetchWeather();
     }
 
     render() {
@@ -84,7 +113,7 @@ class WeatherListContainer extends Component {
             slidesToScroll: 1
         };
 
-        const { weather, loading, error } = this.state;
+        const { state:{weather, loading, error}} = this.props;
 
         if(!loading) {
             return <Spinner/>;
@@ -94,7 +123,7 @@ class WeatherListContainer extends Component {
             return <ErrorIndicator />;
         }
         console.log(weather);
-        return <WeatherList weather={weather} settings={settings} fetchWeather={this.fetchWeather}/>
+        return <WeatherList weather={weather} settings={settings} />
     }
 }
 

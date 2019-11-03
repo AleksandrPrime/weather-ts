@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import WeatherListContainer from "./WeatherList";
+import WeatherListContainer, {ItemType} from "./WeatherList";
+import weatherBalloon from "../services/weather_services";
+import InputForm from "./InputForm";
 
 const Header = styled.header`
     border-bottom: 1px solid #e5e5e5;
@@ -31,13 +33,51 @@ const Wrapper = styled.div`
     margin: auto;
 `;
 
+type IState = {
+    weather: {
+        city: {
+            name: string
+        },
+        list: ItemType[]
+    },
+    loading: boolean,
+    error: object | null
+}
+
 export default class App extends Component {
+
+    state: IState = {
+        weather: {
+            city: {
+                name: ''
+            },
+            list: []
+        },
+        loading: false,
+        error: null,
+    };
+
+    fetchWeather = (city: string = 'Sevastopol' ): void =>  {
+        this.setState({
+            loading: false
+        });
+        weatherBalloon(city)
+            .then((data) => this.setState({
+                weather: data,
+                loading: true
+            }))
+            .catch((err) => this.setState({
+                loading: false,
+                error: err
+            }));
+    };
 
     render() {
         return (
             <Wrapper>
                 <WeatherHeader/>
-                <WeatherListContainer/>
+                <InputForm fetchWeather={this.fetchWeather}/>
+                <WeatherListContainer state={this.state} fetchWeather={this.fetchWeather}/>
             </Wrapper>
         )
     }
