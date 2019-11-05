@@ -6,6 +6,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+type WeatherListContainerProps = {
+    state: {weather: {
+            city: {
+                name: string
+            },
+            list: ItemType[]
+        },
+        loading: boolean,
+        error: boolean},
+    fetchWeather: Function
+}
+
 type WeatherListProps = {
     weather: {
         city: {
@@ -21,7 +33,6 @@ type WeatherListProps = {
         slidesToScroll: number
     }
 }
-
 
 export interface ItemType {
     clouds: {all: number}
@@ -41,6 +52,29 @@ export interface ItemType {
     weather: Array<[]>
     wind: {
         speed: number, deg: number
+    }
+}
+
+type WeatcherListItemProps = {
+    item: {
+        clouds: {all: number}
+        dt: number
+        dt_txt: string
+        main: {
+            grnd_level: number,
+            humidity: number,
+            pressure: number,
+            sea_level: number,
+            temp: number,
+            temp_kf: number,
+            temp_max: number,
+            temp_min: number
+        }
+        sys: {pod: string}
+        weather: Array<[]>
+        wind: {
+            speed: number, deg: number
+        }
     }
 }
 
@@ -67,7 +101,7 @@ const WeatherList = ({weather, settings}: WeatherListProps) => {
     );
 };
 
-const WeatherListItem = ({ item }: any) => {
+const WeatherListItem = ( {item}: WeatcherListItemProps) => {
 
     const { main: { temp, temp_max, temp_min}, dt_txt} = item;
 
@@ -83,25 +117,7 @@ const WeatherListItem = ({ item }: any) => {
     )
 };
 
-type WeatherListContainerProps = {
-    state: {weather: {
-            city: {
-                name: string
-            },
-            list: ItemType[]
-        },
-        loading: boolean,
-        error: object | null},
-    fetchWeather: Function
-}
-
 class WeatherListContainer extends Component<WeatherListContainerProps> {
-
-
-
-    componentDidMount() {
-        this.props.fetchWeather();
-    }
 
     render() {
 

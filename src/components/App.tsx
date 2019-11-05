@@ -41,7 +41,7 @@ type IState = {
         list: ItemType[]
     },
     loading: boolean,
-    error: object | null
+    error: boolean
 }
 
 export default class App extends Component {
@@ -54,10 +54,11 @@ export default class App extends Component {
             list: []
         },
         loading: false,
-        error: null,
+        error: false,
     };
 
-    fetchWeather = (city: string = 'Sevastopol' ): void =>  {
+    fetchWeather = (city: string): void =>  {
+        if(!city) {city = 'Sevastopol'}
         this.setState({
             loading: false
         });
@@ -66,10 +67,11 @@ export default class App extends Component {
                 weather: data,
                 loading: true
             }))
-            .catch((err) => this.setState({
+            .catch(() => this.setState({
                 loading: false,
-                error: err
-            }));
+                error: true
+            }))
+            .catch((err) => console.log('ошибка', err.cod));
     };
 
     render() {
