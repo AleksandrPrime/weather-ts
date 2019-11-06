@@ -17,8 +17,8 @@ const InputForm = ({fetchWeather}: InputFormProps) => {
 
     useEffect(() => {
         fetchWeather(value)
-    }, [debouncedValue]);
-
+    }, //eslint-disable-next-line react-hooks/exhaustive-deps
+        [fetchWeather,debouncedValue]);
     const capitalize = (s: string) => {
         return s && s[0].toUpperCase() + s.slice(1);
     };
