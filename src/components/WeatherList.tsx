@@ -5,6 +5,11 @@ import ErrorIndicator from './ErrorIndicator';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import styled from 'styled-components';
+
+const ButtonStyle = styled.button`
+    margin: 10px 0;
+`;
 
 type WeatherListContainerProps = {
     state: {weather: {
@@ -14,8 +19,10 @@ type WeatherListContainerProps = {
             list: ItemType[]
         },
         loading: boolean,
+        temperature: boolean,
         error: boolean},
-    fetchWeather: Function
+    fetchWeather: Function,
+    switchTempMod: Function
 }
 
 type WeatherListProps = {
@@ -24,14 +31,15 @@ type WeatherListProps = {
             name: string
         },
         list: ItemType[]
-    }
+    },
     settings: {
         dots: boolean,
         infinite: boolean,
         speed: number,
         slidesToShow: number,
         slidesToScroll: number
-    }
+    },
+    switchTempMod: Function
 }
 
 export interface ItemType {
@@ -78,10 +86,11 @@ type WeatcherListItemProps = {
     }
 }
 
-const WeatherList = ({weather, settings}: WeatherListProps) => {
+const WeatherList = ({weather, settings, switchTempMod}: WeatherListProps) => {
     return (
         <div>
             <h2 className="center-block text-center">{weather.city.name}</h2>
+            <ButtonStyle className="btn btn-outline-secondary" onClick={ e => switchTempMod()}>switchTempMod</ButtonStyle>
             <Slider {...settings} className="weather-list row">
                 {
                     weather.list.map((item: ItemType, idx: number) => {
@@ -108,9 +117,9 @@ const WeatherListItem = ( {item}: WeatcherListItemProps) => {
     return (
         <div className="book-list-item list-group">
             <ul className="list-group">
-                <li className="list-group-item">Temp: {temp} C&deg;</li>
-                <li className="list-group-item">Max. Temp: {temp_max} C&deg;</li>
-                <li className="list-group-item">Min. Temp: {temp_min} C&deg;</li>
+                <li className="list-group-item">Temp: {temp} &deg;</li>
+                <li className="list-group-item">Max. Temp: {temp_max} &deg;</li>
+                <li className="list-group-item">Min. Temp: {temp_min} &deg;</li>
                 <li className="list-group-item">Date: {dt_txt.substring(0,10)}</li>
             </ul>
         </div>
@@ -129,7 +138,7 @@ class WeatherListContainer extends Component<WeatherListContainerProps> {
             slidesToScroll: 1
         };
 
-        const { state:{weather, loading, error}} = this.props;
+        const { state:{weather, loading, error}, switchTempMod} = this.props;
 
         if(!loading) {
             return <Spinner/>;
@@ -139,7 +148,7 @@ class WeatherListContainer extends Component<WeatherListContainerProps> {
             return <ErrorIndicator />;
         }
         console.log(weather);
-        return <WeatherList weather={weather} settings={settings} />
+        return <WeatherList weather={weather} settings={settings} switchTempMod={switchTempMod}/>
     }
 }
 
